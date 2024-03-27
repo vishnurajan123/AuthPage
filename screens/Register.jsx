@@ -1,5 +1,6 @@
 import { StyleSheet, Text, TextInput, View, TouchableOpacity, SafeAreaView, ScrollView, Alert } from 'react-native';
 import React, { useState } from 'react';
+import { registerAPI } from '../service/allAPI';
 
 export default function Register({navigation}) {
 
@@ -10,7 +11,34 @@ export default function Register({navigation}) {
     password:"",
     confirmPassword:""
   })
- 
+  const handleRegister=async(e)=>{
+    e.preventDefault()
+    const {name,email,phoneNumber,password,confirmPassword}=userDetails
+    if(!name || !email || !phoneNumber || !password || !confirmPassword){
+      Alert.alert("Please fill the form completely")
+    }
+    else if(password!==confirmPassword){
+      Alert.alert("Password doesn't match")
+    }
+    else{
+      const result=await registerAPI(userDetails)
+      if(result.status==200){
+        Alert.alert("User registered successfully")
+        setUserDetails({
+          name:"",
+          email:"",
+          phoneNumber:"",
+          password:"",
+          confirmPassword:""
+        })
+        navigation.navigate("Login")
+      }
+      else{
+        console.log(result);
+        Alert.alert(result.message)
+      }
+    }
+  }
   return (
     <View style={styles.loginContainer}>
 <ScrollView>
@@ -27,7 +55,7 @@ export default function Register({navigation}) {
             <TextInput value={userDetails.password} onChangeText={(text)=>setUserDetails({...userDetails,password:text}) } secureTextEntry={true} style={styles.input} placeholder="Password" placeholderTextColor={"black"} />
             <TextInput value={userDetails.confirmPassword} onChangeText={(text)=>setUserDetails({...userDetails,confirmPassword:text}) } secureTextEntry={true} style={styles.input} placeholder="Confirm password" placeholderTextColor={"black"} />
   
-            <TouchableOpacity  style={styles.button}>
+            <TouchableOpacity onPress={handleRegister} style={styles.button}>
               <Text style={styles.buttonText}>Sign Up</Text>
             </TouchableOpacity>
           </View>

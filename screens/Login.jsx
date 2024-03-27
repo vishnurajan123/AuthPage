@@ -1,31 +1,62 @@
-import { StyleSheet, Text, TextInput, View, TouchableOpacity,SafeAreaView } from 'react-native';
-import React from 'react';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity,SafeAreaView, Alert,ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { loginAPI } from '../service/allAPI';
 
 export default function Login({navigation}) {
-  console.log("sjvhsjldf");
+  const [userDetails,setUserDetails]=useState({
+    email:"",
+    password:""
+  })
+
+  const handleLogin=async()=>{
+    const {email,password}=userDetails
+    if(!email || !password){
+      Alert.alert("Please fill the form completely")
+    }
+    else{
+      const result =await loginAPI(userDetails)
+      if(result.status==200){
+        Alert.alert("You have logined successfully")
+        navigation.navigate("Home")
+        setUserDetails({
+          email:"",
+          password:""
+        })
+      }
+      else{
+        console.log(result);
+        Alert.alert(result.message)
+      }
+    }
+  }
+
+
   return (
     <SafeAreaView style={styles.loginContainer}>
-      <View style={styles.logoContainer}>
-        <View style={styles.logo}>
-           <Text style={styles.logoText}>Company Logo</Text>
+     <ScrollView>
+        
+        <View style={styles.logoContainer}>
+          <View style={styles.logo}>
+             <Text style={styles.logoText}>Company Logo</Text>
+          </View>
         </View>
-      </View>
-      <View style={styles.formContainer}>
-        <Text style={styles.formTitle}>Login</Text>
-        <View>
-          <TextInput  style={styles.input} placeholder="Email" placeholderTextColor={"black"} />
-          <TextInput secureTextEntry={true} style={styles.input} placeholder="Password" placeholderTextColor={"black"} />
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+        <View style={styles.formContainer}>
+          <Text style={styles.formTitle}>Login</Text>
+          <View>
+            <TextInput value={userDetails.email} onChangeText={(text)=>setUserDetails({...userDetails,email:text})}  style={styles.input} placeholder="Email" placeholderTextColor={"black"} />
+            <TextInput value={userDetails.password} onChangeText={(text)=>setUserDetails({...userDetails,password:text})}  secureTextEntry={true} style={styles.input} placeholder="Password" placeholderTextColor={"black"} />
+            <TouchableOpacity onPress={handleLogin} style={styles.button}>
+              <Text  style={styles.buttonText}>Login</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.signupContainer}>
+            <Text style={styles.signupText}>Don't have any account? </Text>
+            <TouchableOpacity onPress={()=>navigation.navigate("Sign Up")}>
+              <Text style={styles.signupLink}>SignUp</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-        <View style={styles.signupContainer}>
-          <Text style={styles.signupText}>Don't have any account? </Text>
-          <TouchableOpacity onPress={()=>navigation.navigate("Sign Up")}>
-            <Text style={styles.signupLink}>SignUp</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+     </ScrollView>
     </SafeAreaView>
   );
 }
@@ -55,7 +86,8 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1,
     backgroundColor: "#eeeeee",
-    borderTopLeftRadius: 80
+    borderTopLeftRadius: 80,
+    paddingBottom:40
   },
   formTitle: {
     color: "black",

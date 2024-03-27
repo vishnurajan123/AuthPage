@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import Home from './screens/Home';
 
 
 
@@ -31,13 +32,15 @@ function App() {
       backgroundColor: 'black',
     },
     headerTintColor: '#fff',
-    headerTitleAlign: 'center', // Align title text to center
+    headerTitleAlign: 'center', 
     headerTitleStyle: {
       fontWeight: 'bold',
     }
    
   }} 
 />
+<Stack.Screen name='Home' component={Home} options={{ headerShown: false }}/>
+
 
       </Stack.Navigator>
       
