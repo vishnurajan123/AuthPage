@@ -1,12 +1,18 @@
 import { StyleSheet, Text, TextInput, View, TouchableOpacity,SafeAreaView, Alert,ScrollView } from 'react-native';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loginAPI } from '../service/allAPI';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Login({navigation}) {
   const [userDetails,setUserDetails]=useState({
     email:"",
     password:""
   })
+
+ 
+
+ 
+  
 
   const handleLogin=async()=>{
     const {email,password}=userDetails
@@ -30,7 +36,6 @@ export default function Login({navigation}) {
     }
   }
 
-
   return (
     <SafeAreaView style={styles.loginContainer}>
      <ScrollView>
@@ -48,6 +53,7 @@ export default function Login({navigation}) {
             <TouchableOpacity onPress={handleLogin} style={styles.button}>
               <Text  style={styles.buttonText}>Login</Text>
             </TouchableOpacity>
+            
           </View>
           <View style={styles.signupContainer}>
             <Text style={styles.signupText}>Don't have any account? </Text>
