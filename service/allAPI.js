@@ -11,3 +11,6 @@ export const registerAPI=async (user)=>{
 export const loginAPI=async (user)=>{
     return await commonAPI("POST",`${BASE_URL}/api/1.0/auth/login`,user,reqHeader)
 }
+export const getProductsAPI=async(value)=>{
+    return await commonAPI("GET",`https://api.sampleapis.com/coffee/${value}`,"","")
+}
