@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, Dimensions,TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, Dimensions,TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -7,29 +7,38 @@ const screenWidth = Dimensions.get('window').width;
 
 export default function Getstarted({navigation}) {
     const gettStart=()=>{
-        AsyncStorage.setItem('first Load', JSON.stringify(true))
+        AsyncStorage.setItem('first Laad', JSON.stringify(true))
         navigation.navigate('Login')
     }    
   return (
-    <View style={styles.container}>
-      <Image
-        source={require('../images/image.png')}
-        style={{ width: screenWidth, height: 550}} 
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.heading}>Coffee so good, your taste buds will love it.</Text>
-        <Text style={styles.caption}>The best grain, the finest roat, the powerful flavor</Text>
-        <TouchableOpacity onPress={gettStart} style={styles.button}>
-            <Text style={styles.buttonText}>Get Started</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+<SafeAreaView>
+  
+        <ScrollView>
+          <View style={styles.container}>
+    
+            <Image
+              source={require('../images/image.png')}
+              style={{ width: screenWidth, height: 550}} 
+            />
+            <View style={styles.textContainer}>
+              <Text style={styles.heading}>Coffee so good, your taste buds will love it.</Text>
+              <Text style={styles.caption}>The best grain, the finest roat, the powerful flavor</Text>
+              <TouchableOpacity onPress={gettStart} style={styles.button}>
+                  <Text style={styles.buttonText}>Get Started</Text>
+              </TouchableOpacity>
+            </View>
+            
+          </View>
+        </ScrollView>
+  
+</SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    height:"100%",
+    marginBottom:50
   },
   textContainer:{
     flex:1,

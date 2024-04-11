@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -19,6 +20,7 @@ import Cart from './tabs/Cart';
 import FA6cons from 'react-native-vector-icons/FontAwesome6'
 import Notification from './tabs/Notification';
 import OctiIcons from 'react-native-vector-icons/Octicons'
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 
 
@@ -27,13 +29,15 @@ import OctiIcons from 'react-native-vector-icons/Octicons'
 
 const Stack = createNativeStackNavigator();
 const Tab=createBottomTabNavigator()
+const Drawer=createDrawerNavigator()
 
 function App() {
   const [initialLoad, setInitialLoad] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
+
   const getData = async () => {
-    const data = await AsyncStorage.getItem('first Load');
+    const data = await AsyncStorage.getItem('first Laad');
     if (data !== null) {
       setInitialLoad(false);
     }
@@ -52,7 +56,7 @@ function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName='Home'>
+      <Stack.Navigator>
         {!initialLoad ? (
           <>
             <Stack.Screen name='Login' component={Login} options={{ headerShown: false }} />
@@ -100,6 +104,14 @@ function App() {
   );
 }
 
+function MyDrawer() {
+  return (
+    <Drawer.Navigator>
+      <Drawer.Screen name="Cart" component={Cart} />
+    </Drawer.Navigator>
+  );
+}
+
 export function TabNavigator(){
   return(
 
@@ -117,7 +129,7 @@ export function TabNavigator(){
         tabBarIcon: ({ focused }) => <IIcons style={{marginBottom:-25}} name='heart-half' color={focused ? '#cc6d00' : 'grey'} size={30} />,
         tabBarLabel: ({ focused }) => (<View style={focused?styles.focus:styles.nofocus}></View> )
       }} />
-      <Tab.Screen name="Cart" component={Cart} options={{
+      <Tab.Screen name="Cart" component={MyDrawer} options={{
         tabBarIcon: ({ focused }) => <FA6cons style={{marginBottom:-25}} name='bag-shopping' color={focused ? '#cc6d00' : 'grey'} size={25} />,
         tabBarLabel: ({ focused }) => (<View style={focused?styles.focus:styles.nofocus}></View> )
       }} />

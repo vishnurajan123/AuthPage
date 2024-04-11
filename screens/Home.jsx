@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, ScrollView, StyleSheet, View, Text, Image, TextInput, TouchableOpacity,FlatList } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import CoffeeCard from '../components/CoffeeCard';
 import { getProductsAPI } from '../service/allAPI';
@@ -101,13 +101,20 @@ export default function Home({ navigation }) {
         </ScrollView>
         <View style={{flexDirection:"row",justifyContent:"space-evenly",flexWrap:"wrap"}}>
 
-            {
-                products.length>0?products.map(item=>(
-                    <CoffeeCard  item={item}/>
+            
+                <FlatList
+                data={products}
+                renderItem={({ item }) => 
 
+                <CoffeeCard item={item} />
+                
+              }
+                keyExtractor={(item, index) => index.toString()} // You should provide a unique key extractor
+                ListEmptyComponent={<Text>Nothing to display</Text>}
+                contentContainerStyle={{ justifyContent: 'space-evenly',flexDirection:"row",flexWrap:"wrap" }}
 
-                )) : <Text>Nothing to display</Text>
-            }
+              />
+            
 
         </View>
         
